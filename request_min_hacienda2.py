@@ -35,10 +35,12 @@ def scrapper():
     except:
         print("Error")
     return dictPDFs
+
 def printdict(dictPDFs):
     for key, val  in dictPDFs.items():
         print(f'title: {key}')  
         print(f'link: {val}')
+
 def gotPDFs(dictPDFs):
     ''' Forget the Problem with SSL in next three lines'''
     ctx = ssl.create_default_context()
@@ -60,6 +62,7 @@ def gotPDFs(dictPDFs):
         except:
             print(f'NOT FOUND: {key}')
             continue
+        
 def checkWithTxt(dictPDFs):
     for title, url in dictPDFs.items():
         with open('decretos.txt', 'a+') as fd:
