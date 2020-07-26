@@ -58,7 +58,7 @@ def gotPDFs(dictPDFs):
                     if not chunk:
                         break
                     ''' Write into the PDF until chunk exits '''
-                    f.write(chunk)
+                    fd.write(chunk)
         except:
             print(f'NOT FOUND: {key}')
             continue
@@ -72,5 +72,5 @@ if __name__ == "__main__":
     pdfs = dict()
     pdfs = scrapper()
     printdict(pdfs)
-    #gotPDFs(pdfs)
+    gotPDFs(pdfs)
     checkWithTxt(pdfs)
