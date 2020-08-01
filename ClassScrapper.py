@@ -1,21 +1,31 @@
 from urllib.request import urlopen
 import ssl
 import os
+import datetime
 
 class baseScrapper():
 
     @staticmethod
     def printdict(dictPDFs):
         for key, val  in dictPDFs.items():
-            print(f'title: {key}')  
-            print(f'link: {val}')
+            print(f' title: {key}')  
+            print(f' link: {val}')
+        print("length dict :",len(dictPDFs))
 
     @staticmethod
     def checkWithTxt(dictPDFs):
-        for title, url in dictPDFs.items():
-            with open('decretos.txt', 'a+') as fd:
-                fd.write(f'{title}: {url}\n')
-    
+        index = 0
+        with open('decretos.txt', 'a+') as fd:
+            fd.write('**'*100 + '\n')
+            fd.write(datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
+            fd.write('\n')
+            for title, urls in dictPDFs.items():
+                index += 1
+                fd.write(f'{index}.) {title}\n\n')
+                for otherindex, url in enumerate(urls):
+                    fd.write (f'\t{otherindex + 1}.) {url}\n')
+                fd.write('\n')
+            fd.write('**'*100 + '\n')
     @staticmethod
     def gotPDFs(dictPDFs, folder="Decretos_Covid"):
         '''

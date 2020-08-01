@@ -30,7 +30,7 @@ class minhacienda(baseScrapper):
         '''
         tagnumberofpage = 'a.x1cn'
         tagarrownext = 'a.x1cq'
-        regexTaglinksPdf = re.compile('^(T:dclay).*(pad1:)(\d*).*(goLink1)$')
+        regexTaglinksPdf = re.compile(r'^(T:dclay).*(pad1:)(\d*).*(goLink1)$')
         driver = webdriver.Firefox()
         dictPDFs = dict()
         driver.get(self.url)
