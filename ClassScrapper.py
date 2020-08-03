@@ -2,8 +2,14 @@ from urllib.request import urlopen
 import ssl
 import os
 import datetime
+import json
 
 class baseScrapper():
+
+    @staticmethod
+    def jsonfile(dictPDFs):
+        with open('decretos.json','w+') as fd:
+            fd.write(json.dumps(dictPDFs)) 
 
     @staticmethod
     def printdict(dictPDFs):
@@ -26,6 +32,7 @@ class baseScrapper():
                     fd.write (f'\t{otherindex + 1}.) {url}\n')
                 fd.write('\n')
             fd.write('**'*100 + '\n')
+    
     @staticmethod
     def gotPDFs(dictPDFs, folder="Decretos_Covid"):
         '''
