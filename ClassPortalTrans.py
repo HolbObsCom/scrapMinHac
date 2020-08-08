@@ -90,11 +90,11 @@ class PortalTrans(baseScrapper):
 
     def finishtable(self, dictlinks):
         connect('ContratosCovid', host='localhost', port=27017)
-        args = list()
         for key,links in dictlinks.items():
             for link in links:
                 driver = webdriver.Firefox()
                 driver.get(link)
+                args = list()
                 soup = BeautifulSoup(driver.page_source, 'html5lib')
                 lilist = soup.find('ul', {'class': 'details-info-list'})
                 datalist = lilist.find_all('li')
@@ -104,7 +104,7 @@ class PortalTrans(baseScrapper):
                 datatable = table.find_all('td')
                 for data in datatable:
                     args.append(str(data.contents[0]).strip())
-                print(args)
+                print("Objeto: ",args)
                 con = Contrato(
                     Ano = args[0],
                     Sector = key,
