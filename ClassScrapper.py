@@ -8,7 +8,10 @@ class baseScrapper():
 
     @staticmethod
     def jsonfile(dictPDFs):
-        with open('decretos.json','w+') as fd:
+        pt = os.getcwd()
+        with os.fdopen(os.open(os.path.join(pt, 'decretos.json'), os.O_WRONLY | os.O_CREAT), 'w') as fd:
+        #os.chmod(os.path.join(pt, 'decretos.json'), 777)
+        #with open('decretos.json','w+') as fd:
             fd.write(json.dumps(dictPDFs)) 
 
     @staticmethod

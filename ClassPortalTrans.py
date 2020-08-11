@@ -25,6 +25,7 @@ class PortalTrans(baseScrapper):
         chrome_options.add_argument('--window-size=1420,1080')
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--disable-gpu')
+        chrome_path = r'/snap/bin/chromium.chromedriver'
         regexTaglinks = re.compile('^A(q|Q).*(s|S).*(C|c).*(SectorEntidad)')
         firstIteration = False
         regexTagPagination = re.compile(r"^(javascript:)(.+)'(Page\$)(\d*)'\)$")
@@ -35,7 +36,7 @@ class PortalTrans(baseScrapper):
             listurl = list(entitiesdict.values())
             urls = len(listurl)
         for indexurldriver in range(urls):
-            driver = webdriver.Chrome(chrome_options=chrome_options)
+            driver = webdriver.Chrome(chrome_path, chrome_options=chrome_options)
             if len(entitiesdict.keys()) == 0:
                 driver.get(self.url)
             else:
@@ -65,6 +66,7 @@ class PortalTrans(baseScrapper):
         chrome_options.add_argument('--window-size=1420,1080')
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--disable-gpu')
+        chrome_path = r'/snap/bin/chromium.chromedriver'
         regexTaglinks = re.compile('^A(q|Q).*(s|S).*(C|c).*(SectorEntidad).*(Mes=)(\d.*).*')
         regexFirstlink = re.compile(r'.*(CodigoSector).*(NombreSector).*')
         regexTagPagination = re.compile(r"^(javascript:)(.+)'(Page\$)(\d*)'\)$")
@@ -73,13 +75,13 @@ class PortalTrans(baseScrapper):
         for key, links in dictlinks.items():
             for link in links:
                 if (re.match(regexFirstlink, link)):
-                    print(f'no hizo match: {link}')
+                    print(f'no hizo match: {link}')s
                     continue
                 elif (re.match(patern, link)):
                     finishdict[key].append(link)
                 else:
                     link = link.replace(' ', '%20')
-                    driver = webdriver.Chrome(chrome_options=chrome_options)
+                    driver = webdriver.Chrome(chrome_path, chrome_options=chrome_options)
                     driver.get(link)
                     soup = BeautifulSoup(driver.page_source, "html5lib")
                     paginationtags = soup.find_all('a', {'href': regexTagPagination})
@@ -106,11 +108,12 @@ class PortalTrans(baseScrapper):
         chrome_options.add_argument('--window-size=1420,1080')
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--disable-gpu')
+        chrome_path = r'/snap/bin/chromium.chromedriver'
         connect('ContratosCovid', host='localhost', port=27017)
         args = list()
         for key,links in dictlinks.items():
             for link in links:
-                driver = webdriver.Chrome(chrome_options=chrome_options)
+                driver = webdriver.Chrome(chrome_path, chrome_options=chrome_options)
                 driver.get(link)
                 soup = BeautifulSoup(driver.page_source, 'html5lib')
                 lilist = soup.find('ul', {'class': 'details-info-list'})
@@ -144,11 +147,11 @@ class PortalTrans(baseScrapper):
 if __name__ == '__main__':
     start_time = datetime.datetime.now()
     scrap = PortalTrans()
-    #dictprimary1 = scrap.scrapper()
-    #dictenti2 = scrap.scrapper(dictprimary1)
-    #scrap.jsonfile(dictenti2)
-    with open('decretos.json','r') as fd:
-        dictenti2 = json.loads(fd.read())
-    scrap.finishtable(dictenti2)
+    dictprimary1 = scrap.scrapper()
+    dictenti2 = scrap.scrapper(dictprimary1)
+    scrap.jsonfile(dictenti2)
+    #with open('decretos.json','r') as fd:
+        #dictenti2 = json.loads(fd.read())
+    #scrap.finishtable(dictenti2)
     #scrap.checkWithTxt(result)
     
