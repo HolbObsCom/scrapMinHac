@@ -7,8 +7,8 @@ pip install selenium
 
 pip install bs4
 
-download the driver of firefox or change the driver as you want.
+download chromes driver, if you want to use firefox, download its driver instead
 
 Making it scalabe and modular through classes.
 
-Using cloud vision ocr and aws ocr to image to extract text from images.
+For its Docker image refer to dockerScraper

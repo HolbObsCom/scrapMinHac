@@ -16,8 +16,15 @@ class PortalTrans(baseScrapper):
     url='http://www.pte.gov.co/WebsitePTE/AQuienSeContrataSectorCovid'
     # check this two diferent endpoints
     #url='http://www.pte.gov.co/WebsitePTE/AQuienSeContrataSectorPandemia'
+    # import chrome options for webdriver
+    
 
     def scrapper(self, entitiesdict=defaultdict(list)):
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--window-size=1420,1080')
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-gpu')
         regexTaglinks = re.compile('^A(q|Q).*(s|S).*(C|c).*(SectorEntidad)')
         firstIteration = False
         regexTagPagination = re.compile(r"^(javascript:)(.+)'(Page\$)(\d*)'\)$")
@@ -28,7 +35,7 @@ class PortalTrans(baseScrapper):
             listurl = list(entitiesdict.values())
             urls = len(listurl)
         for indexurldriver in range(urls):
-            driver = webdriver.Firefox()
+            driver = webdriver.Chrome(chrome_options=chrome_options)
             if len(entitiesdict.keys()) == 0:
                 driver.get(self.url)
             else:
@@ -53,6 +60,11 @@ class PortalTrans(baseScrapper):
         return entitiesdict
 
     def choice(self, dictlinks):
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--window-size=1420,1080')
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-gpu')
         regexTaglinks = re.compile('^A(q|Q).*(s|S).*(C|c).*(SectorEntidad).*(Mes=)(\d.*).*')
         regexFirstlink = re.compile(r'.*(CodigoSector).*(NombreSector).*')
         regexTagPagination = re.compile(r"^(javascript:)(.+)'(Page\$)(\d*)'\)$")
@@ -67,7 +79,7 @@ class PortalTrans(baseScrapper):
                     finishdict[key].append(link)
                 else:
                     link = link.replace(' ', '%20')
-                    driver = webdriver.Firefox()
+                    driver = webdriver.Chrome(chrome_options=chrome_options)
                     driver.get(link)
                     soup = BeautifulSoup(driver.page_source, "html5lib")
                     paginationtags = soup.find_all('a', {'href': regexTagPagination})
@@ -89,12 +101,17 @@ class PortalTrans(baseScrapper):
         return finishdict
 
     def finishtable(self, dictlinks):
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--window-size=1420,1080')
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-gpu')
         connect('ContratosCovid', host='localhost', port=27017)
+        args = list()
         for key,links in dictlinks.items():
             for link in links:
-                driver = webdriver.Firefox()
+                driver = webdriver.Chrome(chrome_options=chrome_options)
                 driver.get(link)
-                args = list()
                 soup = BeautifulSoup(driver.page_source, 'html5lib')
                 lilist = soup.find('ul', {'class': 'details-info-list'})
                 datalist = lilist.find_all('li')
@@ -104,7 +121,7 @@ class PortalTrans(baseScrapper):
                 datatable = table.find_all('td')
                 for data in datatable:
                     args.append(str(data.contents[0]).strip())
-                print("Objeto: ",args)
+                print(args)
                 con = Contrato(
                     Ano = args[0],
                     Sector = key,

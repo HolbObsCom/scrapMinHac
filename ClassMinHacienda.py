@@ -14,8 +14,15 @@ from ClassScrapper import baseScrapper
 
 class minhacienda(baseScrapper):
     url = 'https://www.minhacienda.gov.co/webcenter/portal/EntOrdenNacional/pages_presupuestogralnacion/presemerCOVID19'
+    
         
     def scrapper(self):
+        options = webdriver.ChromeOptions()
+        options.add_argument('--no-sandbox')
+        options.add_argument('--window-size=1420,1080')
+        #options.add_argument('--headless')
+        options.add_argument('--disable-gpu')
+        chrome_path = r'/snap/bin/chromium.chromedriver'
         '''
         Scrapper: this method has the main functionality of do a request with selenium throw the web page
         of minhacienda.
@@ -31,7 +38,7 @@ class minhacienda(baseScrapper):
         tagnumberofpage = 'a.x1cn'
         tagarrownext = 'a.x1cq'
         regexTaglinksPdf = re.compile(r'^(T:dclay).*(pad1:)(\d*).*(goLink1)$')
-        driver = webdriver.Firefox()
+        driver = webdriver.Chrome(chrome_path, options=options)
         dictPDFs = dict()
         driver.get(self.url)
         tagsNum = driver.find_elements_by_css_selector(tagnumberofpage)
@@ -45,8 +52,9 @@ class minhacienda(baseScrapper):
                 driver.execute_script("arguments[0].scrollIntoView();", target)
                 target.click()
             driver.close()
-        except:
-            print("Error: i cant found a new page, please reload the script")
+        except Exception as e:
+            print("Error: i cant find a new page, please reload the script")
+            print(e)
         return dictPDFs
 
 
