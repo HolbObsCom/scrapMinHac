@@ -20,8 +20,9 @@ class minhacienda(baseScrapper):
         options = webdriver.ChromeOptions()
         options.add_argument('--no-sandbox')
         options.add_argument('--window-size=1420,1080')
-        #options.add_argument('--headless')
+        options.add_argument('--headless')
         options.add_argument('--disable-gpu')
+        options.add_argument('--enable-javascript')
         chrome_path = r'/snap/bin/chromium.chromedriver'
         '''
         Scrapper: this method has the main functionality of do a request with selenium throw the web page

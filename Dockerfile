@@ -1,15 +1,17 @@
 # Container for developing in MongoDb and Python 3 at Holberton School
-
 FROM holbertonschool/ubuntu-1404-python3
-LABEL key="value" Santiago Mendieta <santiago.mendieta@holbertonschool.com>
+
+MAINTAINER Guillaume Salva <guillaume@holbertonschool.com>
 
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
 RUN echo "deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.6 multiverse" > /etc/apt/sources.list.d/mongodb-org-3.6.list
 
+
 RUN apt-get update
 
 # install google chrome
-RUN apt-get install -y google-chrome-stable
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
 
 # install chromedriver
 RUN apt-get install -yqq unzip

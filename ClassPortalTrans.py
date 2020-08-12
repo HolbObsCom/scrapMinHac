@@ -75,7 +75,7 @@ class PortalTrans(baseScrapper):
         for key, links in dictlinks.items():
             for link in links:
                 if (re.match(regexFirstlink, link)):
-                    print(f'no hizo match: {link}')s
+                    print(f'no hizo match: {link}')
                     continue
                 elif (re.match(patern, link)):
                     finishdict[key].append(link)
@@ -147,11 +147,13 @@ class PortalTrans(baseScrapper):
 if __name__ == '__main__':
     start_time = datetime.datetime.now()
     scrap = PortalTrans()
-    dictprimary1 = scrap.scrapper()
-    dictenti2 = scrap.scrapper(dictprimary1)
-    scrap.jsonfile(dictenti2)
-    #with open('decretos.json','r') as fd:
-        #dictenti2 = json.loads(fd.read())
+    #dictprimary1 = scrap.scrapper()
+    #dictenti2 = scrap.scrapper(dictprimary1)
+    #scrap.jsonfile(dictenti2)
+    with open('decretos.json','r') as fd:
+        dictenti2 = json.loads(fd.read())
+    result = scrap.choice(dictenti2)
+    scrap.jsonfile(result)
     #scrap.finishtable(dictenti2)
     #scrap.checkWithTxt(result)
     
